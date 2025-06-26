@@ -1,0 +1,8 @@
+{
+  "name": "gemini-wrapper",
+  "version": "1.0.0",
+  "main": "gemini-wrapper.js",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
