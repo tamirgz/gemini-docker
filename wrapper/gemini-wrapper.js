@@ -6,8 +6,15 @@ app.use(express.json());
 
 app.post('/ask', (req, res) => {
   const prompt = req.body.prompt;
+  console.log(`[INFO] /ask called with prompt: ${prompt}`);
+
   exec(`gemini --prompt "${prompt}"`, (err, stdout, stderr) => {
-    if (err) return res.status(500).send(stderr);
+    if (err) {
+      console.error(`[ERROR] Gemini CLI error: ${stderr}`);
+      return res.status(500).send(stderr);
+    }
+
+    console.log(`[INFO] Gemini CLI response: ${stdout?.substring(0, 100)}...`);
     res.send({ result: stdout });
   });
 });
