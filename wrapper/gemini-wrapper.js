@@ -8,7 +8,14 @@ app.post('/ask', (req, res) => {
   const prompt = req.body.prompt;
   console.log(`[INFO] /ask called with prompt: ${prompt}`);
 
-  exec(`gemini --prompt "${prompt}"`, (err, stdout, stderr) => {
+  if (!process.env.GEMINI_API_KEY) {
+    console.warn("[WARN] GEMINI_API_KEY is not set!");
+  }
+
+  const command = `GEMINI_API_KEY=${process.env.GEMINI_API_KEY} gemini --prompt \"${prompt}\"`;
+  console.log(`[INFO] Running command: ${command}`);
+
+  exec(command, (err, stdout, stderr) => {
     if (err) {
       console.error(`[ERROR] Gemini CLI error: ${stderr}`);
       return res.status(500).send(stderr);
