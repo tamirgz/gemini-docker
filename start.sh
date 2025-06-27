@@ -1,3 +1,4 @@
 #!/bin/bash
-export GEMINI_API_KEY=${GEMINI_API_KEY}
+
+# Render automatically sets environment variables; no need to re-export
 node /workspace/wrapper/gemini-wrapper.js
