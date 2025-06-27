@@ -12,4 +12,4 @@ RUN cd /workspace/wrapper && npm install
 
 COPY start.sh /workspace/
 
-CMD ["/workspace/start.sh"]
+CMD ["/bin/bash", "/workspace/start.sh"]
