@@ -6,16 +6,17 @@ app.use(express.json());
 
 app.post('/ask', (req, res) => {
   const prompt = req.body.prompt;
-  console.log(`[INFO] /ask called with prompt: ${prompt}`);
+  const apiKey = process.env.GEMINI_API_KEY;
 
-  if (!process.env.GEMINI_API_KEY) {
+  console.log(`[INFO] /ask called with prompt: ${prompt}`);
+  if (!apiKey) {
     console.warn("[WARN] GEMINI_API_KEY is not set!");
   }
 
-  const command = `GEMINI_API_KEY=${process.env.GEMINI_API_KEY} gemini --prompt \"${prompt}\"`;
-  console.log(`[INFO] Running command: ${command}`);
+  const command = `gemini --prompt "${prompt}"`;
+  console.log(`[INFO] Executing: ${command}`);
 
-  exec(command, (err, stdout, stderr) => {
+  exec(command, { env: { ...process.env, GEMINI_API_KEY: apiKey } }, (err, stdout, stderr) => {
     if (err) {
       console.error(`[ERROR] Gemini CLI error: ${stderr}`);
       return res.status(500).send(stderr);
